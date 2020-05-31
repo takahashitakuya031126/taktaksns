@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use App\Post;
+
+class IndexController extends Controller
+{
+    /**
+     * Show the application dashboard.
+     * 
+     */
+    public function index()
+    {
+        $posts = Post::latest()->get();
+        $posts->load('user', 'comments.user', 'likes');
+        
+        return view('pages.index', [
+            'posts' => $posts
+        ]);
+    }
+}
